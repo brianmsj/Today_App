@@ -10,17 +10,28 @@ import UIKit
 
 class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    
-    @IBOutlet weak var editButton: UIButton!
-    @IBOutlet weak var prevButton: UIButton!
-    @IBOutlet weak var pickerView: UIPickerView!
-    @IBOutlet weak var priorityLabel: UILabel!
+    //labels
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var taskLabel: UILabel!
-    @IBOutlet weak var labelView: UIView!
+    @IBOutlet weak var priorityLabel: UILabel!
+    @IBOutlet weak var statusLabel: UILabel!
+    
+    //buttons
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var prevButton: UIButton!
+    
+    //text fields
+    @IBOutlet weak var statusField: UITextField!
     @IBOutlet var taskfield: UITextField!
-    @IBOutlet weak var editView: UIView!
     @IBOutlet var timefield: UITextField!
+    
+    //picker views
+    @IBOutlet weak var pickerView: UIPickerView!
+
+    //ui views
+    @IBOutlet weak var labelView: UIView!
+    @IBOutlet weak var editView: UIView!
+   
     var todo: Todo?
     var priority = ["High", "Medium", "Low", "Very Low"]
 
@@ -28,6 +39,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         super.viewDidLoad()
         self.taskfield.delegate = self
         self.timefield.delegate = self
+        self.statusField.delegate = self
         pickerView.delegate = self
         pickerView.dataSource = self
         editButton.layer.cornerRadius = 6
@@ -50,6 +62,10 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
                 self.timefield.text = time
                 self.timeLabel.text = time
             }
+            if let status = todo.status {
+                self.statusField.text = status
+                self.statusLabel.text = status
+            }
         }
     }
         // Do any additional setup after loading the view.
@@ -59,6 +75,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             self.todo?.task = taskfield.text
         } else if textField == self.timefield {
             self.todo?.time = textField.text
+        } else if statusField == self.statusField {
+            self.todo?.status = statusField.text
         }
     }
 

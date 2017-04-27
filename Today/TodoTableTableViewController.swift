@@ -14,9 +14,6 @@ class TodoTableTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-            
-            let test = Todo(task: "Test Task", time: "11:40", priority: "High", status: "Complete")
-            self.todos.append(test)
         
         let moveButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(TodoTableTableViewController.toggleEdit))
         
@@ -63,14 +60,18 @@ class TodoTableTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let image = UIImage(named:"clock1.jpg")
+        
+        var thumbnails: [String] = ["clock1.png","pen.png","coffee.png", "sunflower.png","book.png","clock1.png", "pen.png", "coffee.png","clock1.png","pen.png","coffee.png","clock1.png","pen.png","coffee.png"]
+        
         let contact = self.todos[indexPath.row]
         if let task = contact.task {
             cell.textLabel?.text = task
-            cell.imageView?.image = image
+            cell.imageView?.image = UIImage(named: thumbnails[indexPath.row])
+            
         }else {
             cell.textLabel?.text = "New Task (edit)"
-            cell.imageView?.image = image
+            cell.imageView?.image = UIImage(named: thumbnails[indexPath.row])
+
         }
         return cell
     }
