@@ -8,8 +8,13 @@
 
 import UIKit
 
-class DetailViewController: UIViewController, UITextFieldDelegate {
+class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
+    
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var prevButton: UIButton!
+    @IBOutlet weak var pickerView: UIPickerView!
+    @IBOutlet weak var priorityLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var taskLabel: UILabel!
     @IBOutlet weak var labelView: UIView!
@@ -17,11 +22,20 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var editView: UIView!
     @IBOutlet var timefield: UITextField!
     var todo: Todo?
+    var priority = ["High", "Medium", "Low", "Very Low"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.taskfield.delegate = self
         self.timefield.delegate = self
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        editButton.layer.cornerRadius = 6
+        editView.layer.cornerRadius = 6
+        labelView.layer.cornerRadius = 6
+        prevButton.layer.cornerRadius = 6
+        
+        
         
         if let todo = self.todo {
             if let task = todo.task {
@@ -60,10 +74,25 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         toggleViews()
      }
     
+     @IBAction func previousButton(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as! LoginViewController
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.window?.rootViewController = loginVC
+    
+        
+    }
+    
       func toggleViews() {
         editView.isHidden = !editView.isHidden
+        pickerView.isHidden = !pickerView.isHidden
         labelView.isHidden = !labelView.isHidden
+        
       }
+
+
+    
+
     // MARK: - Navigation
 
     /*
@@ -73,5 +102,23 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
     }
  */
     
+    //Picker View Controls
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return priority.count
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return priority[row]
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        priorityLabel.text = priority[row]
+        self.todo?.priority = priorityLabel.text
+        
+        
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
 
 }

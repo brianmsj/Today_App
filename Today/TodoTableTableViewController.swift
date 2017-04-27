@@ -14,8 +14,6 @@ class TodoTableTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-            let test = Todo(task: "Test Task", time: "11:40", priority: "High", status: "Complete")
-            self.todos.append(test)
         
         let moveButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(TodoTableTableViewController.toggleEdit))
         
@@ -37,7 +35,7 @@ class TodoTableTableViewController: UITableViewController {
     }
     
     func addTask() {
-        let newTask = Todo(task: "New Task")
+        let newTask = Todo(task: nil, time: nil)
         self.todos.append(newTask)
         let newIndexPath = IndexPath(row: self.todos.count - 1, section: 0)
         self.tableView.insertRows(at: [newIndexPath], with: .automatic)
@@ -67,7 +65,7 @@ class TodoTableTableViewController: UITableViewController {
         if let task = contact.task {
             cell.textLabel?.text = task
         }else {
-            cell.textLabel?.text = "Unnamed Task"
+            cell.textLabel?.text = "New Task (edit)"
         }
         return cell
     }
