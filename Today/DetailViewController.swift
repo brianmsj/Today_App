@@ -34,8 +34,12 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         editView.layer.cornerRadius = 6
         labelView.layer.cornerRadius = 6
         prevButton.layer.cornerRadius = 6
+        prevButton.layer.borderWidth = 1.0
+        editButton.layer.borderWidth = 1.0
+        prevButton.layer.borderColor = UIColor(white: 1.0, alpha: 1).cgColor
+        editButton.layer.borderColor = UIColor(white: 1.0, alpha: 1).cgColor
         
-        
+    
         
         if let todo = self.todo {
             if let task = todo.task {
