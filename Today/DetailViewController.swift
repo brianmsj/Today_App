@@ -10,6 +10,9 @@ import UIKit
 
 class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
+
+
+    
     //labels
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var taskLabel: UILabel!
@@ -37,11 +40,15 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //delegation
         self.taskfield.delegate = self
         self.timefield.delegate = self
         self.statusField.delegate = self
         pickerView.delegate = self
         pickerView.dataSource = self
+        
+        //styling
         editButton.layer.cornerRadius = 6
         editView.layer.cornerRadius = 6
         labelView.layer.cornerRadius = 6
@@ -51,7 +58,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         prevButton.layer.borderColor = UIColor(white: 1.0, alpha: 1).cgColor
         editButton.layer.borderColor = UIColor(white: 1.0, alpha: 1).cgColor
         
-    
+        
         
         if let todo = self.todo {
             if let task = todo.task {
@@ -65,6 +72,11 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
             if let status = todo.status {
                 self.statusField.text = status
                 self.statusLabel.text = status
+            }
+            if let priority = todo.priority {
+                let index = self.priority.index(of: priority)
+                self.priorityLabel.text = priority
+                self.pickerView.selectRow(index!, inComponent: 0, animated: false)
             }
         }
     }
@@ -94,6 +106,9 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     
      @IBAction func buttonPush(_ sender: Any) {
         toggleViews()
+        timeLabel.text = timefield.text
+        taskLabel.text = taskfield.text
+        statusLabel.text = statusField.text
      }
     
      @IBAction func previousButton(_ sender: Any) {
@@ -111,8 +126,11 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         labelView.isHidden = !labelView.isHidden
         
       }
-
-
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
     
 
     // MARK: - Navigation
@@ -134,8 +152,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         priorityLabel.text = priority[row]
-        self.todo?.priority = priorityLabel.text
-        
+        todo?.priority = priority[row]
         
     }
     
